@@ -8,5 +8,14 @@ The script will:
 - Convert the data to text format
 - Create a script to import it into the routing table
 - Import it into the routing table
-- 
-Requires having bgpdump installed (apt install bgpdump) and gunzip (apt install gunzip)
+
+What does it require:
+- BGPDUMP (apt install bgpdump)
+- GUNZIP (apt install gunzip)
+
+Why?
+There are many reasons why you would want to generate a global routing table for your own usage.
+- In a testing environment to simulate a BGP session from an upstream
+- In a real world situation where an Upstream only provides you with a default route but you would like to do advanced rules-based routing
+- In a real world situation where an Upstream only provides you with a default route by your have downstreams that would like to have a full routing table
+- In a real world situation where you would like to limit access to certain IP addresses on your network by removing the default route and adding only certain routes to your router to allow for filtering to clients on the network (if the gateway can't access it, it's unreachable for the entire network).
