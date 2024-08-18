@@ -12,3 +12,5 @@ This script will download the latest Routing Table from Ripe NCC and perform the
 - Set the file as executable
 - Clear the tables 144 and 266 for import
 - Run the script to import the routes to the table
+
+Requires having bgpdump installed (apt install bgpdump) and gunzip (apt install gunzip)
