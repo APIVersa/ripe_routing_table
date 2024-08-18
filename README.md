@@ -2,6 +2,7 @@
 A Script to Get a Full Routing Table From Ripe Sources
 
 This script will download the latest Routing Table from Ripe NCC and perform the following on it:
+- Download the data from RIPE NCC
 - Extract the data
 - Convert it to a text file
 - Remove Bogons, Local Addresses, and Private Ranges
