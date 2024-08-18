@@ -40,5 +40,5 @@ Extra notes:
 - If you switch between networks, for example by moving from 1 wifi network to another, the routing table will be reset and you'll need to re-import using ipv4.sh and ipv6.sh
 
 Final things:
-- There is a folder called uploads on this project. If you open it, you can find old copies of the ipv4.sh and ipv6.sh scripts. They are not actively maintained frequently, but are there if you need to run this quickly and cannot wait the time for it to generate fresh ones.
+- The final ipv4.sh and ipv6.sh files are too large to upload here to github, but we maintain copies on our website as mentioned below. This script will allow you to generate them yourself. You can expect total process to take about 30 minutes to 1 hour in total, including importing using the ipv4.sh and ipv6.sh scripts. The space needed will be about 200MB on hard disk and 2GB in RAM.
 - We maintain copies of all of this on our website, including final, ready-to-run and kept updated ipv4.sh and ipv6.sh scripts, text dumps of the RIPE route prefixes, etc. You can find all that and more at https://files.apiversa.com
