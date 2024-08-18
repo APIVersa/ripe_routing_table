@@ -6,8 +6,14 @@ This script will download the latest BGP routing table from RIPE NCC RIS Service
 The script will:
 - Download the Latest Data
 - Convert the data to text format
-- Create a script to import it into the routing table
-- Import it into the routing table
+- Clean up the data and split it into IPv4 + IPv6 lists
+- Create 2 scripts to import it into the routing table (ipv4.sh and ipv6.sh)
+
+What you need to do:
+- Run the script and answer the questions about interface and gateways
+- Wait for it to finish
+- Run ipv4.sh if you want to import ipv4 table
+- Run ipv6.sh if you want to import ipv6 table
 
 What does it require:
 - BGPDUMP (apt install bgpdump)
