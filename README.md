@@ -36,3 +36,4 @@ The warnings:
 Extra notes:
 - You may want to run this regularly, as the global routing table is updated very frequently as ranges are added and deleted.
 - This will not last over a reboot. If you want it to last over reboot, add the ipv4.sh and ipv6.sh to @reboot with in crontab with a 5 minute delay (sleep 5 && command_here)
+- If using DHCP, your default route from upstream will keep coming back. Highly suggested is to set static IPs for all interfaces that you will be using. For that reason, this is not recommended to be used in an environment where you cannot use static IP addresses for some reason, such as public wifi networks.
