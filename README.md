@@ -10,10 +10,11 @@ The script will:
 - Create 2 scripts to import it into the routing table (ipv4.sh and ipv6.sh)
 
 What you need to do:
-- Run the script and answer the questions about interface and gateways
+- Run the script
 - Wait for it to finish
 - Run ipv4.sh if you want to import ipv4 table
 - Run ipv6.sh if you want to import ipv6 table
+- When you run those scripts, it will ask you for interface and gateway information. This script can be re-run for every upstream you have on a different interface if you wish to add routes for them. For example, if you have 2 upstreams, lets just call them upstream 1 and upstream 2. They both only provide default routes, but you'd like to do some rules based routing between the 2. Both are connected to your server over a different interface OR (1 or both) are via VXLAN, GRE, Wireguard, Etc. giving them their own interface names. In this case you could run the same ipv4.sh or ipv6.sh 2 times, specify the interface and gateway for upstream 1 the first time and upstream 2 the second time.
 
 What does it require:
 - BGPDUMP (apt install bgpdump)
