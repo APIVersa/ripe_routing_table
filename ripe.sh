@@ -28,9 +28,9 @@ sed -i 's/^/ip route add /' ribs/ipv4.txt
 echo "Prepending ipv6.txt..."
 sed -i 's/^/ip -6 route add /' ribs/ipv6.txt
 echo "Appending ipv4.txt..."
-sed -i -E 's/$/ via GATEWAY_V4_HERE dev INTERFACE_HERE proto kernel metric 1024/' ribs/ipv4.txt
+sed -i -E 's/$/ via \$gateway dev \$interface proto kernel metric 1024/' ribs/ipv4.txt
 echo "Appending ipv6.txt..."
-sed -i -E 's/$/ via GATEWAY_V6_HERE dev INTERFACE_HERE proto kernel metric 1024/' ribs/ipv6.txt
+sed -i -E 's/$/ via \$gateway dev \$interface proto kernel metric 1024/' ribs/ipv6.txt
 echo "Creating ipv4.sh..."
 touch ribs/ipv4.sh && chmod +x ribs/ipv4.sh
 echo "Creating ipv6.sh..."
@@ -87,10 +87,6 @@ while true; do
         echo "Invalid IPv4 address. Please try again."
     fi
 done
-
-# Replace placeholders with user input
-sed -i "s/GATEWAY_V4_HERE/$gateway/" ribs/ipv4.txt
-sed -i "s/INTERFACE_HERE/$interface/" ribs/ipv4.txt
 EOF
 
 echo "Adding the headers to ipv6.sh..."
@@ -100,12 +96,24 @@ cat > ribs/ipv6.sh <<'EOF'
 # Function to validate an IPv6 address
 validate_ipv6() {
     local ip=$1
-    if [[ $ip =~ ^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$ || $ip =~ ^([0-9a-fA-F]{1,4}:){1,7}:$ || $ip =~ ^::([0-9a-fA-F]{1,4}:){1,6}[0-9a-fA-F]{1,4}$ ]]; then
+    if [[ $ip =~ ^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$ ||        # 1:2:3:4:5:6:7:8
+          $ip =~ ^([0-9a-fA-F]{1,4}:){1,7}:$ ||                      # 1:: 1:2:3:4:5:6:7::
+          $ip =~ ^([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}$ ||      # 1::8 1:2:3:4:5:6::8
+          $ip =~ ^([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}$ || # 1::7:8 1:2:3:4:5::7:8
+          $ip =~ ^([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}$ || # 1::6:7:8 1:2:3:4::6:7:8
+          $ip =~ ^([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}$ || # 1::5:6:7:8 1:2:3::5:6:7:8
+          $ip =~ ^([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}$ || # 1::4:5:6:7:8 1:2::4:5:6:7:8
+          $ip =~ ^[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})$ ||     # 1::3:4:5:6:7:8 1::2:3:4:5:6:7:8
+          $ip =~ ^:((:[0-9a-fA-F]{1,4}){1,7}|:)$ ||                   # ::2:3:4:5:6:7:8 ::8 ::
+          $ip =~ ^([0-9a-fA-F]{1,4}:){1,7}:$ ||                       # 1:2:3:4:5:6:7::
+          $ip =~ ^::([fF]{4}:){0,1}((25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\.){3,3}(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])$ || # IPv4 mapped address
+          $ip =~ ^([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\.){3,3}(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])$ ]] ; then
         return 0
     else
         return 1
     fi
 }
+
 
 # Function to validate the network interface
 validate_interface() {
@@ -138,10 +146,6 @@ while true; do
         echo "Invalid IPv6 address. Please try again."
     fi
 done
-
-# Replace placeholders with user input
-sed -i "s/GATEWAY_V6_HERE/$gateway/" ribs/ipv6.txt
-sed -i "s/INTERFACE_HERE/$interface/" ribs/ipv6.txt
 EOF
 
 echo "Adding the ranges to ipv4.sh..."
